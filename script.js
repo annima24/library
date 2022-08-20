@@ -6,6 +6,7 @@ const submitButton = document.querySelector('#submit-button');
 const myLibrary = [];
 const formButton = document.querySelector('.open-form-button');
 const form = document.querySelector('#form');
+const formContainer = document.querySelector('.form-container');
 
 function Book(title, author, pages) {
   (this.title = title), (this.author = author), (this.pages = pages);
@@ -15,54 +16,157 @@ function addBooktoLibrary(book) {
   myLibrary.push(book);
 }
 
-//function that takes the book object and turns it into html
-function displayBook(book) {
-  //create a div for the book card
-  const card = document.createElement('div');
-  //create p elements for the individual book properties
-  const title = document.createElement('p');
-  title.textContent = book.title;
-  const author = document.createElement('p');
-  author.textContent = book.author;
-  const pages = document.createElement('p');
-  pages.textContent = book.pages;
+function createCard(index) {
+  const newCard = document.createElement('div');
+  newCard.setAttribute('data-number', index);
+  return newCard;
+}
+
+function createTitleText(book) {
+  const newTitleText = document.createElement('p');
+  newTitleText.textContent = `Title: ${book.title}`;
+  newTitleText.classList = 'card-element';
+  return newTitleText;
+}
+
+function createAuthorText(book) {
+  const newAuthorText = document.createElement('p');
+  newAuthorText.textContent = `Author: ${book.author}`;
+  newAuthorText.classList = 'card-element';
+  return newAuthorText;
+}
+
+function createPagesText(book) {
+  const newPagesText = document.createElement('p');
+  newPagesText.textContent = `Pages: ${book.pages}`;
+  newPagesText.classList = 'card-element';
+  return newPagesText;
+}
+
+function createReadStatusText() {
+  const newReadStatusText = document.createElement('p');
+  newReadStatusText.textContent = `Status: Completed`;
+  newReadStatusText.classList = 'card-element';
+  return newReadStatusText;
+}
+
+function createChangeStatusButton() {
+  const newChangeStatusButton = document.createElement('button');
+  newChangeStatusButton.type = 'button';
+  newChangeStatusButton.textContent = 'Change status';
+  newChangeStatusButton.classList = 'card-button';
+  return newChangeStatusButton;
+}
+
+function createRemoveBookButton() {
+  const newRemoveBookButton = document.createElement('button');
+  newRemoveBookButton.type = 'button';
+  newRemoveBookButton.classList = 'removeBook';
+  newRemoveBookButton.textContent = 'Remove Book';
+  newRemoveBookButton.classList = 'card-button';
+  return newRemoveBookButton;
+}
+
+function createCardTextContainer() {
+  const cardTextContainerDiv = document.createElement('div');
+  cardTextContainerDiv.classList = 'card-text-container';
+  return cardTextContainerDiv;
+}
+
+function createButtonContainer() {
+  const newButtonContainerDiv = document.createElement('div');
+  newButtonContainerDiv.classList = 'button-container';
+  return newButtonContainerDiv;
+}
+
+//function that takes the book object and turns it into html, also takes an index number to create a data attribute to associate the dom element so it can be maniuplated with js.
+function displayBook(book, i) {
+  //variable that represents if the book has already been read, default value false.
+  let status = true;
+  //creating all of the elements that will be displayed on the card
+  const card = createCard(i);
+  const cardTextContainer = createCardTextContainer();
+  const title = createTitleText(book);
+  const author = createAuthorText(book);
+  const pages = createPagesText(book);
+  const readStatus = createReadStatusText();
+  const buttonContainer = createButtonContainer();
+  const changeStatusButton = createChangeStatusButton();
+  const removeBookButton = createRemoveBookButton();
+
+  //event handlers for the button clicks.
+  changeStatusButton.addEventListener('click', function () {
+    if (status == false) {
+      status = true;
+      readStatus.textContent = 'Status: Completed';
+    } else if (status == true) {
+      status = false;
+      readStatus.textContent = `Status: Not completed`;
+    }
+  });
+  removeBookButton.addEventListener('click', function () {
+    removeBookFromLibrary(card.getAttribute('data-number'));
+  });
+
   //append p elements to the card
-  card.appendChild(title);
-  card.appendChild(author);
-  card.appendChild(pages);
+  cardTextContainer.appendChild(title);
+  cardTextContainer.appendChild(author);
+  cardTextContainer.appendChild(pages);
+  cardTextContainer.appendChild(readStatus);
+  buttonContainer.appendChild(changeStatusButton);
+  buttonContainer.appendChild(removeBookButton);
+  card.appendChild(cardTextContainer);
+  card.appendChild(buttonContainer);
   //append card to container
   container.appendChild(card);
   //apply card class to the card
   card.classList.add('card');
 }
 
-// const dune = new Book('dune', 'herbert', 800);
-// const hobbit = new Book('the hobbit', 'tolken', 300);
-// const jurassic = new Book('jurassic', 'mike c', 800);
+function removeBookFromLibrary(index) {
+  myLibrary.splice(index, 1);
+  container.textContent = '';
+  myLibrary.forEach((book, i) => displayBook(book, i));
+}
 
-// addBooktoLibrary(dune);
-// addBooktoLibrary(hobbit);
-// addBooktoLibrary(jurassic);
-
-//take values from form, create a new Book, add to myLibrary, display books.
-submitButton.addEventListener('click', function () {
+function submitButtonHandler() {
   const newBook = new Book(title.value, author.value, pages.value);
   addBooktoLibrary(newBook);
   clearForm();
   container.textContent = '';
-  myLibrary.forEach((book) => displayBook(book));
-});
+  myLibrary.forEach((book, i) => displayBook(book, i));
+}
 
-formButton.addEventListener('click', function () {
-  console.log(form.style.display);
-});
+function formButtonHandler() {
+  if (
+    formContainer.style.display === '' ||
+    formContainer.style.display === 'none'
+  ) {
+    formContainer.style.display = 'block';
+    formButton.textContent = 'Close';
+  } else {
+    formContainer.style.display = 'none';
+    formButton.textContent = 'Add a Book!';
+  }
+}
 
 function clearForm() {
   title.value = '';
   author.value = '';
   pages.value = '';
 }
-//checks to make sure there are no empty form fields
 
+const dune = new Book('Dune', 'Herbert', 800);
+addBooktoLibrary(dune);
+
+const hobbit = new Book('The Hobbit', 'Tolkien', 300);
+addBooktoLibrary(hobbit);
+
+const hailMary = new Book('Hail Mary', 'Weir', 400);
+addBooktoLibrary(hailMary);
+
+//take values from form, create a new Book, add to myLibrary, display books.
+submitButton.addEventListener('click', submitButtonHandler);
+formButton.addEventListener('click', formButtonHandler);
 //loop over myLibrary and display the books
-myLibrary.forEach((book) => displayBook(book));
+myLibrary.forEach((book, i) => displayBook(book, i));

@@ -5,6 +5,14 @@ body {
   box-sizing: border-box;
   padding: 0px;
   margin: 0px;
+  caret-color: transparent;
+  background: linear-gradient(
+    38deg,
+    rgba(131, 58, 180, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
+  font-family: 'Poppins', sans-serif;
 }
 
 footer {
@@ -19,41 +27,121 @@ footer {
 }
 
 #form {
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    position: fixed;
-    bottom: 90px;
-    right: 28px;
-    border: 3px solid #f1f1f1;
-    z-index: 9;
-    padding: 20px;
-    gap: 7px;
+  display: flex;
+  flex-direction: column;
+  caret-color: auto;
+  width: 200px;
+  position: fixed;
+  bottom: 110px;
+  right: 28px;
+  border: 3px solid black;
+  z-index: 9;
+  padding: 20px;
+  gap: 7px;
+  backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, .3);
+  border-radius: 5px;
 }
 
 .display-container {
   display: flex;
-  gap: 5px;
+  flex-wrap: wrap;
+  gap: 15px;
   height: 100%;
   border: 2px solid black;
-  padding: 5px;
+  padding: 15px;
+  overflow: scroll;
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   border: 2px solid pink;
+  backdrop-filter: blur(20px);
+  background-color: rgba(255, 255, 255, .3);
+  border-radius: 5px;
   padding: 10px;
-  height: 100px;
+  height: 175px;
+  width: 250px;
+  overflow: scroll;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.card-element {
+  width: 200px;
+  margin: 0px;
+  /* padding: 0px 0px 5px; */
+}
+
+.card-text-container  {
+  height: 125px;
+  overflow: scroll;
+}
+
+#submit-button  {
+  margin-top: 10px;
+}
+
+.button-container {
+  display: flex;
+  gap: 5px;
+  justify-content: center;
+  height: 40px;
+  align-items: center;
+}
+
+.card-button {
+  background-color: rgba(255, 255, 255, .6);
+  cursor: pointer;
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 30px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+    rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+input[type='text']  {
+  border: 2px solid black;
+}
+
+input[type='number']  {
+  border: 2px solid black;
+}
+
+button:hover {
+  background-color: rgba(174, 168, 168, 0.6);
 }
 
 .open-form-button {
-    background-color: #555;
-    color: white;
-    padding: 16px 20px;
-    border: none;
-    cursor: pointer;
-    opacity: 0.8;
-    position: fixed;
-    bottom: 23px;
-    right: 28px;
-    width: 246px; 
+  background-color: rgba(255, 255, 255, .6);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.8;
+  position: fixed;
+  bottom: 23px;
+  right: 28px;
+  width: 246px;
+  border: 2px solid black;
+  border-radius: 5px;
+  box-shadow: rgba(9, 30, 66, 0.25) 0px 4px 8px -2px,
+  rgba(9, 30, 66, 0.08) 0px 0px 0px 1px;
+}
+
+.form-container {
+  display: none;
+}
+
+.hasRead {
+  display: flex;
+}
+
+.title {
+  padding-left: 20px;
+}
+
+.header-footer-color  {
+  background-color: rgba(255, 255, 255, .3);
 }
